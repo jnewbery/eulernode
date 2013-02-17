@@ -1,9 +1,10 @@
 {
-  "name": "node-example",
+  "name": "eulernode",
   "version": "0.0.1",
   "dependencies": {
     "express": "2.5.x",
-    "mongodb" : "1.1.11" 
+    "mongodb" : "1.1.11" ,
+    "mongoose": "3.5.6"
   },
   "engines": {
     "node": "0.8.x",
