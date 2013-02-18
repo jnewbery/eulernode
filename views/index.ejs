@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="Euler">
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/css/style.css' />
+    <script src="js/lib/angular.js"></script>
+    <script src="js/lib/angular-resource.js"></script>
+    <script src="js/app.js"></script>
   </head>
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
-    <div><%= data %></div>
+    <div ng-controller="ProblemCtrl">
+      <ul>
+        <li ng-repeat="problem in problem_list">Problem {{problem._id}}: {{problem.name}}</li>
+      </ul>
+    </div>
   </body>
 </html>
