@@ -1,5 +1,6 @@
 var express = require('express'),
   routes = require('./routes'),
+  api_v1 = require('./routes/api_v1'),
   http = require('http'),
   path = require('path');
 var mongoose = require('mongoose');
@@ -21,12 +22,15 @@ app.configure(function () {
 mongoose.connect('mongodb://localhost/eulernode');
 
 var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', console.error.bind(console, 'Mongo DB connection error:'));
 db.once('open', function callback () {
   console.log("Connected to MongoDB");
 });
 
 app.get('/', routes.index);
+app.get('/v1/problems', api_v1.problem_list);
+app.get('/v1/problems/:id', api_v1.problem);
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
