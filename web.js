@@ -1,8 +1,22 @@
-var express = require('express');
+var express = require('express'),
+  routes = require('./routes'),
+  http = require('http'),
+  path = require('path');
 var mongoose = require('mongoose');
-var Problem = require(__dirname+'/models').Problem;
 
-var app = express.createServer(express.logger());
+var app = express();
+
+app.configure(function () {
+  app.set('port', process.env.PORT || 5000);
+  app.set('views', __dirname + '/views');
+  app.set('view engine', 'ejs');
+  app.use(express.favicon());
+  app.use(express.logger('dev'));
+  app.use(express.bodyParser());
+  app.use(express.methodOverride());
+  app.use(app.router);
+  app.use(express.static(path.join(__dirname, 'public')));
+});
 
 mongoose.connect('mongodb://localhost/eulernode');
 
@@ -12,16 +26,8 @@ db.once('open', function callback () {
   console.log("Connected to MongoDB");
 });
 
-app.get('/', function(request, response) {
-  Problem.find(function (err, problems) {
-    if (err) {} // TODO handle err
-    // We should use ejs templates here instead of simply dumping the
-    // JSON we got from the DB in the webpage.
-    response.send(problems); 
-  });
-});
+app.get('/', routes.index);
 
-var port = process.env.PORT || 5000;
-app.listen(port, function() {
-  console.log("Listening on " + port);
+http.createServer(app).listen(app.get('port'), function(){
+  console.log("Express server listening on port " + app.get('port'));
 });
