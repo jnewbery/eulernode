@@ -1,9 +1,9 @@
 var express = require('express'),
-  routes = require('./routes'),
-  api_v1 = require('./routes/api_v1'),
   http = require('http'),
-  path = require('path');
-var mongoose = require('mongoose');
+  path = require('path'),
+  mongoose = require('mongoose'),
+  routes = require('./routes'),
+  api_v1 = require('./routes/api_v1');
 
 var app = express();
 
@@ -29,6 +29,7 @@ db.once('open', function callback () {
 
 app.get('/', routes.index);
 app.get('/v1/problems', api_v1.problem_list);
+app.post('/v1/problems', api_v1.problem_post);
 app.get('/v1/problems/:id', api_v1.problem);
 
 

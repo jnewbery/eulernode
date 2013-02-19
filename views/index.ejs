@@ -14,6 +14,18 @@
       <ul>
         <li ng-repeat="problem in problem_list">Problem {{problem._id}}: {{problem.name}}</li>
       </ul>
+      <hr>
+      <h3>Add new</h3>
+      <label for="id_number">Number:</label><br>
+      <input id="id_number" type="text" ng-model="problem.number"></input><br>
+      <label for="id_name">Name:</label><br>
+      <input id="id_name" type="text" ng-model="problem.name"></input><br>
+      <label for="id_description">Description:</label><br>
+      <textarea id="id_description" type="text" ng-model="problem.description"></textarea><br>
+      <label for="id_answer">Answer:</label><br>
+      <input id="id_answer" type="text" ng-model="problem.answer"></input><br>
+      <br>
+      <button ng-click="save()">Save new</button>
     </div>
   </body>
 </html>
