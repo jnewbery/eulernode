@@ -2,30 +2,45 @@
 <html ng-app="Euler">
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/css/style.css' />
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/style.css" />
     <script src="js/lib/angular.js"></script>
     <script src="js/lib/angular-resource.js"></script>
     <script src="js/app.js"></script>
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <div ng-controller="ProblemCtrl">
-      <ul>
-        <li ng-repeat="problem in problem_list">Problem {{problem._id}}: {{problem.name}}</li>
-      </ul>
+    <div class="container-narrow">
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="/">Home</a></li>
+        </ul>
+        <h3 class="muted"><%= title %></h3>
+      </div>
       <hr>
-      <h3>Add new</h3>
-      <label for="id_number">Number:</label><br>
-      <input id="id_number" type="text" ng-model="problem.number"></input><br>
-      <label for="id_name">Name:</label><br>
-      <input id="id_name" type="text" ng-model="problem.name"></input><br>
-      <label for="id_description">Description:</label><br>
-      <textarea id="id_description" type="text" ng-model="problem.description"></textarea><br>
-      <label for="id_answer">Answer:</label><br>
-      <input id="id_answer" type="text" ng-model="problem.answer"></input><br>
-      <br>
-      <button ng-click="save()">Save new</button>
-    </div>
+      <h3>Problems</h3>
+      <div ng-controller="ProblemCtrl">
+
+        <div class="problem-item" ng-repeat="problem in problem_list">
+          <div class="title">Problem {{problem._id}}</div>
+          <p>{{problem.name}}</p>
+        </div>
+
+        <h3>Add new problem</h3>
+        <label for="id_number">Number:</label>
+        <input id="id_number" type="text" ng-model="problem.number"></input>
+        <label for="id_name">Name:</label>
+        <input id="id_name" type="text" ng-model="problem.name"></input>
+        <label for="id_description">Description:</label>
+        <textarea id="id_description" type="text" ng-model="problem.description"></textarea>
+        <label for="id_answer">Answer:</label>
+        <input id="id_answer" type="text" ng-model="problem.answer"></input>
+        <br>
+        <button class="btn" ng-click="save()">Save new</button>
+      </div>
+      <hr>
+      <div class="footer">
+        <p>The problems on this site comes from <a href="http://projecteuler.net/">Project Euler</a>.</p>
+      </div>
+    </div> <!-- /container -->
   </body>
 </html>
