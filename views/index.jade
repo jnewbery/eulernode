@@ -1,0 +1,40 @@
+doctype 5
+html(ng-app="Euler")
+  head
+    title #{title}
+    link(rel="stylesheet", href="/css/bootstrap.css")
+    link(rel="stylesheet", href="/css/style.css")
+    script(src="js/lib/angular.js")
+    script(src="js/lib/angular-resource.js")
+    script(src="js/app.js")
+  body
+    div.container-narrow
+      div.masthead
+        ul.nav.nav-pills.pull-right
+          li 
+            a(href="/") Home
+          li
+            a(href="/logout") Logout
+        h3.muted #{title}
+      hr
+      h3 Problems
+      div(ng-controller="ProblemCtrl")
+
+        div.problem-item(ng-repeat="problem in problem_list")
+          div.title Problem {{problem._id}}
+          p {{problem.name}}
+
+        h3 Add new problem
+        label(for="id_number") Number:
+        input#id_number(type="text", ng-model="problem.number")
+        label(for="id_name") Name:
+        input#id_name(type="text", ng-model="problem.name")
+        label(for="id_description") Description:
+        textarea#id_description(type="text", ng-model="problem.description")
+        label(for="id_answer") Answer:
+        input#id_answer(type="text", ng-model="problem.answer")
+        br
+        button.btn(ng-click="save()") Save new
+      hr
+      div.footer
+        p The problems on this site comes from a(href="http://projecteuler.net/") Project Euler
