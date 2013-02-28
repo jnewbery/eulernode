@@ -1,0 +1,33 @@
+doctype 5
+html(ng-app="Euler")
+  head
+    title #{title}
+    link(rel="stylesheet", href="/css/bootstrap.css")
+    link(rel="stylesheet", href="/css/style.css")
+    script(src="js/lib/angular.js")
+    script(src="js/lib/angular-resource.js")
+    script(src="js/app.js")
+  body
+    div.container-narrow
+      div.masthead
+        ul.nav.nav-pills.pull-right
+          li 
+            a(href="/") Problems
+          if typeof locals.currentUser == 'undefined'
+            li
+              a(href="/login") Login
+            li
+              a(href="/register") Register
+          else
+            li
+              a(href="/logout") <i class="icon-lock"></i> Logout
+        h3.muted #{title}
+      hr
+      p #{locals.currentUser}
+      
+      block content
+
+      hr
+      div.footer
+        p The problems on this site comes from 
+          a(href="http://projecteuler.net/") Project Euler.

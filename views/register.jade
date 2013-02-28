@@ -1,0 +1,8 @@
+extends base
+
+block content
+  form.form-register(action="/register", method="post")
+    h3.form-register-heading Please register
+    input.input-block-level(name='user[username]', value=user.username || '', type="text", placeholder='Username')
+    input.input-block-level(name='user[password]', value=user.password || '', type='password', placeholder='Password')
+    button.btn.btn-large.btn-success(type='submit') Register
