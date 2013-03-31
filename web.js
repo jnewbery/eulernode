@@ -26,9 +26,8 @@ app.configure(function () {
 var uristring = process.env.MONGOLAB_URI ||
                 process.env.MONGOHQ_URL ||
                 'mongodb://localhost/eulernode';
-console.log(uristring);
 
-mongoose.connect('uristring');
+mongoose.connect(uristring);
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Mongo DB connection error:'));
