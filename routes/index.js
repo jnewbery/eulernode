@@ -24,7 +24,6 @@ exports.login = function(req, res){
       req.session.user_id = user.id;
       res.redirect('/');
     } else {
-      req.flash('error', 'Incorrect credentials');
       console.log('Incorrect credentials');
       res.redirect('/login');
     }
