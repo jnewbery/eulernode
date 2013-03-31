@@ -6,13 +6,13 @@ var User = mongoose.model('User');
 exports.index = function(req, res){
   console.log(req.session);
   res.render('index', {
-    title: 'Euler Node',
+    title: 'Eulernode',
     locals: {currentUser: req.currentUser}});
 };
 
 exports.login_page = function(req, res){
   res.render('login', {
-    title: 'Euler Node',
+    title: 'Eulernode',
     locals: {currentUser: res.currentUser},
     user: new User()
   });
@@ -32,7 +32,7 @@ exports.login = function(req, res){
 
 exports.register_page = function(req, res){
   res.render('register', {
-    title: 'Euler Node',
+    title: 'Eulernode',
     locals: {currentUser: res.currentUser},
     user: new User()
   });
@@ -44,7 +44,7 @@ exports.register = function(req, res){
   function userSaveFailed() {
     console.log('Account creation failed');
     res.render('register', {
-      title: 'Euler Node',
+      title: 'Eulernode',
       locals: {currentUser: res.currentUser},
       user: new User()
     });
