@@ -23,7 +23,11 @@ app.configure(function () {
   app.locals.pretty = true; // for development only
 });
 
-mongoose.connect('mongodb://localhost/eulernode');
+var uristring = process.env.MONGOLAB_URI ||
+                process.env.MONGOHQ_URL ||
+                'mongodb://localhost/eulernode';
+
+mongoose.connect('uristring');
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Mongo DB connection error:'));
