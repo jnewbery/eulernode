@@ -14,7 +14,7 @@ problemSchema.methods.evaluate = function () {
   console.log("You solution was correct");
 };
 
-// compile the schema
+// compile the Problem schema
 var Problem = mongoose.model('Problem', problemSchema);
 
 
@@ -44,4 +44,38 @@ userSchema.method('encryptPassword', function(password) {
   return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
 });
 
+// compile the User schema
 var User = mongoose.model('User', userSchema);
+
+loginTokenSchema = new mongoose.Schema({
+  username: { type: String, index: true },
+  series: { type: String, index: true },
+  token: { type: String, index: true }
+});
+
+loginTokenSchema.method('randomToken', function() {
+  return Math.round((new Date().valueOf() * Math.random())) + '';
+});
+
+loginTokenSchema.pre('save', function(next) {
+  // Automatically create the tokens
+  this.token = this.randomToken();
+
+  if (this.isNew)
+    this.series = this.randomToken();
+
+  next();
+});
+
+loginTokenSchema.virtual('id')
+  .get(function() {
+    return this._id.toHexString();
+});
+
+loginTokenSchema.virtual('cookieValue')
+  .get(function() {
+    return JSON.stringify({ username: this.username, token: this.token, series: this.series });
+});
+
+// compile the LoginToken schema
+var LoginToken = mongoose.model('LoginToken', loginTokenSchema);

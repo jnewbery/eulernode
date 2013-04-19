@@ -1,6 +1,7 @@
 var models = require('../models');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var LoginToken = mongoose.model('LoginToken');
 
 
 exports.index = function(req, res){
@@ -10,6 +11,7 @@ exports.index = function(req, res){
     locals: {currentUser: req.currentUser}});
 };
 
+// GET /login
 exports.login_page = function(req, res){
   res.render('login', {
     title: 'Eulernode',
@@ -18,11 +20,21 @@ exports.login_page = function(req, res){
   });
 };
 
+// POST /login
 exports.login = function(req, res){
-    User.findOne({ username: req.body.user.username }, function(err, user) {
+  User.findOne({ username: req.body.user.username }, function(err, user) {
     if (user && user.authenticate(req.body.user.password)) {
       req.session.user_id = user.id;
-      res.redirect('/');
+      // Remember me
+      if (req.body.remember_me) {
+        var loginToken = new LoginToken({ username: user.username });
+        loginToken.save(function() {
+          res.cookie('logintoken', loginToken.cookieValue, { expires: new Date(Date.now() + 2 * 604800000), path: '/' });
+          res.redirect('/');
+        });
+      } else {
+        res.redirect('/');
+      }
     } else {
       console.log('Incorrect credentials');
       res.redirect('/login');
@@ -61,7 +73,13 @@ exports.register = function(req, res){
 };
 
 exports.logout = function(req, res){
-  req.session.destroy(function() {});
-  res.redirect('/');
+  if (req.session) {
+    // remove all the login tokens both on the client and the server side
+    // for the current user
+    LoginToken.remove({ username: req.currentUser.username }, function() {});
+    res.clearCookie('logintoken');
+    req.session.destroy(function() {});
+  }
+  res.redirect('/login');
 };
 

@@ -35,6 +35,39 @@ db.once('open', function callback () {
   console.log("Connected to MongoDB");
 });
 
+var LoginToken = mongoose.model('LoginToken');
+
+function authenticateFromLoginToken(req, res, next) {
+  var cookie = JSON.parse(req.cookies.logintoken);
+
+  LoginToken.findOne({ username: cookie.username,
+                       series: cookie.series,
+                       token: cookie.token }, (function(err, token) {
+    if (!token) {
+      res.redirect('/login');
+      return;
+    }
+
+    User.findOne({ username: token.username }, function(err, user) {
+      if (user) {
+        req.session.user_id = user.id;
+        req.currentUser = user;
+
+        token.token = token.randomToken();
+        token.save(function() {
+          res.cookie('logintoken', token.cookieValue, {
+            // set the cookie to expire in two weeks from now
+            expires: new Date(Date.now() + 2 * 604800000), path: '/'
+          });
+          next();
+        });
+      } else {
+        res.redirect('/login');
+      }
+    });
+  }));
+}
+
 var User = mongoose.model('User');
 
 function loadUser(req, res, next) {
@@ -47,6 +80,8 @@ function loadUser(req, res, next) {
         res.redirect('/login');
       }
     });
+  } else if (req.cookies.logintoken) {
+    authenticateFromLoginToken(req, res, next);
   } else {
     res.redirect('/login');
   }
