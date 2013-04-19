@@ -99,7 +99,12 @@ app.get('/v1/problems', api_v1.problem_list);
 app.post('/v1/problems', api_v1.problem_post);
 app.get('/v1/problems/:id', api_v1.problem);
 
+// for testing, export the app itself
+module.exports = app;
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
-});
+if (process.env.NODE_ENV != 'test') {
+  http.createServer(app).listen(app.get('port'), function(){
+    console.log("Express server listening on port " + app.get('port'));
+  });
+}
+
