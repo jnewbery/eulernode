@@ -20,7 +20,7 @@ html(ng-app="Euler")
               a(href="/register") Register
           else
             li
-              a(href="/logout") <i class="icon-lock"></i> Logout
+              a(href="/logout") <i class="icon-lock"></i> Logout (#{locals.currentUser.username})
         h3.muted #{title}
       hr
       
