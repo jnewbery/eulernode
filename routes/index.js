@@ -5,7 +5,6 @@ var LoginToken = mongoose.model('LoginToken');
 
 
 exports.index = function(req, res){
-  console.log(req.session);
   res.render('index', {
     title: 'Eulernode',
     locals: {currentUser: req.currentUser}});
