@@ -3,9 +3,10 @@ extends base
 block content
   form.form-signin(action="/login", method="post")
     h3.form-signin-heading Please sign in
-      input.input-block-level(name='user[username]', value=user.username || '', type='text', placeholder='Username')
-      input.input-block-level(name='user[password]', value=user.password || '', type='password', placeholder='Password')
-      label.checkbox
-        input#remember_me(type='checkbox', name='remember_me')
-        | Remember me
-      button.btn.btn-large.btn-primary(type='submit') Sign in
+    div.error-message #{messages}
+    input.input-block-level(name='user[username]', value=user.username || '', type='text', placeholder='Username')
+    input.input-block-level(name='user[password]', value=user.password || '', type='password', placeholder='Password')
+    label.checkbox
+      input#remember_me(type='checkbox', name='remember_me')
+      | Remember me
+    button.btn.btn-large.btn-primary(type='submit') Sign in

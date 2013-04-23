@@ -14,9 +14,11 @@ exports.index = function(req, res){
 exports.login_page = function(req, res){
   res.render('login', {
     title: 'Eulernode',
+    messages: req.session.messages,
     locals: {currentUser: res.currentUser},
     user: new User()
   });
+  req.session.messages = [];
 };
 
 // POST /login
@@ -36,6 +38,7 @@ exports.login = function(req, res){
       }
     } else {
       console.log('Incorrect credentials');
+      req.session.messages = ['The username or password was incorrect'];
       res.redirect('/login');
     }
   });

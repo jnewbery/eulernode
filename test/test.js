@@ -79,7 +79,8 @@ describe('login page', function() {
           // incorrect login should not redirect
           assert.equal(browser.location.pathname, '/login');
           // assert error message is displayed
-          // ...
+          assert.equal(browser.text('.error-message'),
+            'The username or password was incorrect');
         }).then(done, done);
     });
   });
